@@ -1,5 +1,5 @@
 require('dotenv').config(); // Load environment variables
-const dburl = process.env.URI  // Fallback for development
+const dburl = process.env.URI || "mongodb+srv://softtechoninc:0Ow5AYVvvZsECNuz@lumona.nn7teue.mongodb.net/?appName=Lumona" // Fallback for development
 const mongoose = require('mongoose');
 mongoose.connect(dburl, {
   
