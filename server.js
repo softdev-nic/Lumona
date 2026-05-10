@@ -3,6 +3,10 @@ const createUser = require('./Modals/Controllers/createUser');
 const login = require('./Modals/Controllers/LoginUser');
 const auth = require('./Modals/Middlewares/Auth');
 const getProfile = require('./Modals/Controllers/profile');
+const updateUser = require('./Modals/Controllers/UpdateProfile');
+const streakManager = require('./Modals/Controllers/Activities/streakManager');
+const updateScore = require('./Modals/Controllers/UpdateScore');
+const getScore = require('./Modals/Controllers/Activities/getScore');
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -24,6 +28,10 @@ app.get('/api/auth', auth, (req, res) => {
     });
 });
 app.get('/api/profile', auth, getProfile)
+app.put('/api/profile', auth,updateUser)
+app.put('/api/streak', auth, streakManager)
+app.put('/api/score', auth, updateScore)
+app.get('/api/score', auth,getScore)
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
