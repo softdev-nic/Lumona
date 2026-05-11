@@ -18,8 +18,24 @@ const User = new Schema({
       type:Number,
       default:0
     },
-
   },
+  tasks:[{
+    taskId:{
+      type:String,
+      required:true
+    },
+ taskTime:{
+  startTime:{
+    type:String,
+    required:true
+  },
+  endTime:{
+    type:String,
+    required:true
+  },
+ }
+
+  }],
   lastCompletedsession:{
     type:String
   },

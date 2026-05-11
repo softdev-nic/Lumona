@@ -7,6 +7,7 @@ const updateUser = require('./Modals/Controllers/UpdateProfile');
 const streakManager = require('./Modals/Controllers/Activities/streakManager');
 const updateScore = require('./Modals/Controllers/UpdateScore');
 const getScore = require('./Modals/Controllers/Activities/getScore');
+const penaltyscore =require('./Modals/Controllers/Activities/PenaltyScore')
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -32,6 +33,7 @@ app.get('/api/profile', auth, getProfile)
 app.put('/api/profile', auth,updateUser)
 app.put('/api/streak', auth, streakManager)
 app.put('/api/score', auth, updateScore)
+app.put('/api/penaltyscore', auth, penaltyscore)
 app.get('/api/score', auth,getScore)
 
 app.listen(port, () => {
