@@ -1,51 +1,78 @@
-const User = require('../../User');
+ const User = require('../../User');
 
-const updateStreak = async (req, res) => {
+const streakManager = async (req, res) => {
     try {
         const user = await User.findById(req.user.user.id);
+
         if (!user) {
             return res.status(404).json({
-                error:'User not found'
-                });
-        }   
+                error: 'User not found'
+            });
+        }
 
         const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-        const lastSessionDate = user.lastCompletedsession ? new Date(user.lastCompletedsession) : null;
-        
-        if (lastSessionDate) {
-            const lastSessionDay = new Date(lastSessionDate.getFullYear(), lastSessionDate.getMonth(), lastSessionDate.getDate()).getTime();
-            const diffDays = (today - lastSessionDay) / (1000 * 60 * 60 * 24);
+
+        const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
+
+        const lastSession = user.lastCompletedsession
+            ? new Date(user.lastCompletedsession)
+            : null;
+
+        if (lastSession) {
+
+            const lastDay = new Date(
+                lastSession.getFullYear(),
+                lastSession.getMonth(),
+                lastSession.getDate()
+            );
+
+            const diffDays = Math.floor(
+                (today - lastDay) / (1000 * 60 * 60 * 24)
+            );
 
             if (diffDays === 0) {
-                return res.json({ message: 'Streak already updated today', streak: user.streak });
-            } else if (diffDays > 1) {
-                user.streak = 1;
-            } else {
-                user.streak += 1;
+                return res.json({
+                    message: 'Streak already updated today',
+                    streak: user.streak,
+                    longestStreak: user.longestStreak,
+                    lastCompletedsession: user.lastCompletedsession
+                });
             }
+
+            if (diffDays === 1) {
+                user.streak += 1;
+            } else {
+                user.streak = 1;
+            }
+
         } else {
             user.streak = 1;
         }
 
-        user.lastCompletedsession = now.toISOString();
+        user.lastCompletedsession = now;
 
-
-        if (user.longestStreak < user.streak) {
+        if (user.streak > user.longestStreak) {
             user.longestStreak = user.streak;
         }
+
         await user.save();
+
         res.json({
             message: 'Streak updated successfully',
-            streak:user.streak,
-            currentStreak:user.currentStreak,
-            longestStreak:user.longestStreak
+            streak: user.streak,
+            longestStreak: user.longestStreak,
+            lastCompletedsession: user.lastCompletedsession
         });
-        } catch (error) {
+
+    } catch (error) {
         res.status(500).json({
-            error:error.message
+            error: error.message
         });
     }
 };
 
-module.exports = updateStreak;
+module.exports = streakManager;
