@@ -3,14 +3,20 @@ const bcrypt = require('bcryptjs');
 const sendEmail = require('../../mailer');
 
 const createUser = async (req, res) => {
-
     try {
-
         const { username, email, password } = req.body;
 
         if (!username || !email || !password) {
             return res.status(400).json({
                 error: 'All fields are required'
+            });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                error: 'Invalid email format'
             });
         }
 
@@ -45,25 +51,21 @@ const createUser = async (req, res) => {
             }
         });
 
-        try {
-            await sendEmail(
-                newUser.email,
-                'Welcome to Lumona!',
-                `Hi ${newUser.username}, thank you for registering at Lumona.`
-            );
-        } catch (emailError) {
-            console.error('Email delivery failed:', emailError);
-            // We don't return here because the user account was already created successfully
-        }
-
-    } catch (error) {
-
-        res.status(500).json({
-            error: error.message
+        sendEmail(
+            newUser.email,
+            'Welcome to Lumona!',
+            `Hi ${newUser.username}, thank you for registering at Lumona.`
+        ).catch((err) => {
+            console.error('Email delivery failed:', err);
         });
 
-    }
+    } catch (error) {
+        console.error(error);
 
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
 };
 
 module.exports = createUser;
