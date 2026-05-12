@@ -27,11 +27,12 @@ const createUser = async (req, res) => {
             return res.status(400).json({
                 error: 'Password must be at least 6 characters'
             });
-        }else if (!passwordRegex.test(password)) {
-            return res.status(400).json({
-                error: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-            });
         }
+        // }else if (!passwordRegex.test(password)) {
+        //     return res.status(400).json({
+        //         error: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+        //     });
+        // }
         
 
         const existingUser = await User.findOne({ email });
