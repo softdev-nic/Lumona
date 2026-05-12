@@ -45,11 +45,16 @@ const createUser = async (req, res) => {
             }
         });
 
-        await sendEmail(
-            newUser.email,
-            'Welcome to Lumona!',
-            `Hi ${newUser.username}, thank you for registering at Lumona.`
-        );
+        try {
+            await sendEmail(
+                newUser.email,
+                'Welcome to Lumona!',
+                `Hi ${newUser.username}, thank you for registering at Lumona.`
+            );
+        } catch (emailError) {
+            console.error('Email delivery failed:', emailError);
+            // We don't return here because the user account was already created successfully
+        }
 
     } catch (error) {
 
