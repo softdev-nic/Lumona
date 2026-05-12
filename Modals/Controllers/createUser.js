@@ -1,5 +1,6 @@
  const User = require('../User');
 const bcrypt = require('bcryptjs');
+const sendEmail = require('../../mailer');
 
 const createUser = async (req, res) => {
 
@@ -43,6 +44,12 @@ const createUser = async (req, res) => {
                 email: newUser.email
             }
         });
+
+        await sendEmail(
+            newUser.email,
+            'Welcome to Lumona!',
+            `Hi ${newUser.username}, thank you for registering at Lumona.`
+        );
 
     } catch (error) {
 
