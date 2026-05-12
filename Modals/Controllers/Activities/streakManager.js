@@ -23,11 +23,11 @@ const streakManager = async (req, res) => {
             : null;
 
         if (lastSession) {
-
-            const lastDay = new Date(
-                lastSession.getFullYear(),
-                lastSession.getMonth(),
-                lastSession.getDate()
+            // Use UTC to avoid timezone shifts causing incorrect day differences
+            const lastDay = Date.UTC(
+                lastSession.getUTCFullYear(),
+                lastSession.getUTCMonth(),
+                lastSession.getUTCDate()
             );
 
             const diffDays = Math.floor(
