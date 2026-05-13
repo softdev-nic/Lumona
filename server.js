@@ -21,7 +21,8 @@ app.use(cors({
         'https://lumona.site',
         'https://www.lumona.site'
         
-    ]
+    ],
+    Credentials:true
 }));
 app.use(express.json());
 
