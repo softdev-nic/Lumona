@@ -42,7 +42,7 @@ const User = new Schema({
   resetToken:{
     type:String
   },
-  resetTokenExpiry:{
+  resetTokenExpires:{
     type:Date
   }
   
