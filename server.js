@@ -16,14 +16,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 
-app.use(cors({
-    origin:[
-        'https://lumona.site',
-        'https://www.lumona.site'
-        
-    ],
-    Credentials:true
-}));
+app.use(cors( ));
 app.use(express.json());
 
 app.post('/api/register', createUser);
