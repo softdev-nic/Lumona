@@ -12,6 +12,7 @@ const resetPasswordSetter = async (req, res) => {
 
     if(!user){
         return res.status(404).send("Invalid or expired token. token expired");
+        
     }
     user.password = password;
     user.resetPasswordToken = undefined;

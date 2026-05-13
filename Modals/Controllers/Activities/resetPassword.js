@@ -14,7 +14,7 @@ const resetPasswordMail = async (req, res) => {
         const resetTokenExpiry = Date.now() + 10*60*1000;
         const ResetLink = `${process.env.CLIENT_URL}/reset-password/${resetToken}`
         user.resetToken = resetToken;
-        user.resetTokenExpiry = resetTokenExpiry;
+        user.resetTokenExpires = resetTokenExpiry;
         await user.save();
         
        await sendEmail(user.email, 'Reset Password here', `<a href=${ResetLink}>Reset Password</a>`)
