@@ -8,6 +8,7 @@ const streakManager = require('./Modals/Controllers/Activities/streakManager');
 const updateScore = require('./Modals/Controllers/UpdateScore');
 const getScore = require('./Modals/Controllers/Activities/getScore');
 const penaltyscore =require('./Modals/Controllers/Activities/PenaltyScore')
+const resetPasswordMail = require('./Modals/Controllers/Activities/resetPassword');
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -35,6 +36,7 @@ app.put('/api/streak', auth, streakManager)
 app.put('/api/score', auth, updateScore)
 app.put('/api/penaltyscore', auth, penaltyscore)
 app.get('/api/score', auth,getScore)
+app.post('/api/reset-password', resetPasswordMail)
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

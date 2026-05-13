@@ -39,6 +39,12 @@ const User = new Schema({
   lastCompletedsession:{
     type:String
   },
+  resetToken:{
+    type:String
+  },
+  resetTokenExpiry:{
+    type:Date
+  }
   
   
 
