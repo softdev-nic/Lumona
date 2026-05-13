@@ -1,40 +1,28 @@
- const nodemailer = require('nodemailer');
-require('dotenv').config();
+const resend = require('resend');
+require('dotenv').config()
+const client = new resend.Client(process.env.RESEND_API_KEY);
 
- const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
-    }
-});
-
-const sendEmail = async (to, subject, text) => {
+const sendEmail = async (to, subject, html) => {
     try {
-        const info = await transporter.sendMail({
-            from: process.env.EMAIL,
+        const response  = await client.emails.send({
+            from: "support@lumona.site",
             to,
             subject,
-            text
+            html
         });
+        console.log(response)
+        return{
+            success:true,
+            response
+        }
 
-        console.log('Email sent:', info.messageId);
 
-        return {
-            success: true,
-            messageId: info.messageId
-        };
+        }catch(error){
+            return{
+                success:false,
+                error
+            }
+            }
 
-    } catch (error) {
-        console.error('Error sending email:', error);
-
-        return {
-            success: false,
-            error: error.message
-        };
-    }
-};
-
-module.exports = sendEmail;
+        }
+        module.exports = sendEmail;

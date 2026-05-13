@@ -63,12 +63,12 @@ const createUser = async (req, res) => {
         sendEmail(
             newUser.email,
             'Welcome to Lumona!',
-            `Hi ${newUser.username}, thank you for registering at Lumona.`
+            `Hi ${newUser.username}, thank you for joining Lumona! We're excited to have you on board.`
         ).catch((err) => {
             console.error('Email delivery failed:', err);
         });
 
-    } catch (error) {
+    } catch (error) {  
         console.error(error);
 
         res.status(500).json({
