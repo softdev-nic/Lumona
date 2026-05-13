@@ -1,6 +1,6 @@
-const resend = require('resend');
+const {resend} = require('resend');
 require('dotenv').config()
-const client = new resend.Client(process.env.RESEND_API_KEY);
+const client = new resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async (to, subject, html) => {
     try {
