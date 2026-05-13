@@ -20,7 +20,7 @@ app.use(cors({
     origin:[
         'https://lumona.site',
         'https://www.lumona.site'
-        ''
+        
     ]
 }));
 app.use(express.json());
