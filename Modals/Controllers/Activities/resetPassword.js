@@ -17,7 +17,7 @@ const resetPasswordMail = async (req, res) => {
         user.resetTokenExpires = resetTokenExpiry;
         await user.save();
         
-       await sendEmail(user.email, 'Reset Password here', `<a href=${ResetLink}>Reset Password</a>`)
+       await sendEmail(user.email, 'Reset Password here', `<a href="${ResetLink}">Reset Password</a>`)
        res.status(200).json({
         success:true,
         message:'Reset password link sent to email'

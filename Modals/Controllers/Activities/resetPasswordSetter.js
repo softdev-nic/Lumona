@@ -8,11 +8,11 @@ const resetPasswordSetter = async (req, res) => {
     }
     
     const token = req.params.token;
-    console.log(token)
-    const user = await User.findOne({resetToken:token,
-        resetTokenExpires:{$gt:Date.now()}
+    const user = await User.findOne({
+        resetToken: token,
+        resetTokenExpires: { $gt: Date.now() }
     });
-
+    
     if(!user){
         return res.status(404).send("Invalid or expired token. token expired");
         
