@@ -2,13 +2,12 @@ const User = require('../../User');
 const bcrypt = require('bcryptjs');
 
 const resetPasswordSetter = async (req, res) => {
-    const {newpassword,token} = req.body;
+    const { newpassword } = req.body;
     if(!newpassword){
         return res.status(400).send("Password is required");
     }
     
     const token = req.params.token;
-    console.log(token)
     const user = await User.findOne({resetToken:token,
         resetTokenExpires:{$gt:Date.now()}
     });
