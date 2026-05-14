@@ -12,7 +12,7 @@ const resetPasswordMail = async (req, res) => {
         }
         const resetToken = crypto.randomBytes(20).toString('hex');
         const resetTokenExpiry = Date.now() + 10*60*1000;
-        const ResetLink = `https://www.lumona.site/resetpassword/${resetToken}`
+        const ResetLink =     `https://www.lumona.site/resetpassword/${resetToken}`
         user.resetToken = resetToken;
         user.resetTokenExpires = resetTokenExpiry;
         await user.save();
