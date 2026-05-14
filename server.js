@@ -38,7 +38,7 @@ app.put('/api/score', auth, updateScore)
 app.put('/api/penaltyscore', auth, penaltyscore)
 app.get('/api/score', auth,getScore)
 app.post('/api/reset-password', resetPasswordMail)
-app.post('/api/auth/reset-password',resetPasswordSetter)
+app.post('/api/auth/reset-password/:token', resetPasswordSetter)
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
