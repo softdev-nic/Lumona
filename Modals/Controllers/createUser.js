@@ -8,9 +8,9 @@ const createUser = async (req, res) => {
         const user = await User.findOne({email});
         const verified = user.verified;
         if(!verified){
-            const token = crypto.getRandomValues(new Uint8Array(32)).toString('hex');
+            const token = crypto.randomBytes(20).toString('hex');
             user.verificationToken = token;
-            user.verificationTokenExpires = Date.now() + 10*60*1000;
+            user.verificationTokenExpires = Date.now() + 5*60*1000;
             user.save();
             const verificationLink = `https://www.lumona.site/verify/${token}`;
             try{
