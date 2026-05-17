@@ -1,5 +1,10 @@
  const User = require('../../User');
-
+const isNewUser = (user)=>
+{
+  if(user.streak === 0 && user.longestStreak === 0 && user.lastCompletedsession === 0)
+    return true;
+  return false;
+}
 const streakManager = async (req, res) => {
     try {
         const user = await User.findById(req.user.user.id);
@@ -52,6 +57,7 @@ const streakManager = async (req, res) => {
         } else {
             user.streak = 1;
         }
+       
 
         user.lastCompletedsession = now;
 
