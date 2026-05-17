@@ -3,6 +3,28 @@ const bcrypt = require('bcryptjs');
 const sendEmail = require('../../mailer');
 
 const createUser = async (req, res) => {
+    const userVerification = async(email)=>{
+       
+        const user = await User.findOne({email});
+        const verified = user.verified;
+        if(!verified){
+            const token = crypto.getRandomValues(new Uint8Array(32)).toString('hex');
+            user.verificationToken = token;
+            user.verificationTokenExpires = Date.now() + 10*60*1000;
+            user.save();
+            const verificationLink = `https://www.lumona.site/verify/${token}`;
+            try{
+
+                await  sendEmail(email,"verification link", `<a href="${verificationLink}">Verify Email</a>`)
+                res.send("Email sent")
+            }catch(error){
+                console.log(error)
+            }
+            }
+           
+            
+    }
+        
     try {
         const { username, email, password } = req.body;
 
@@ -44,30 +66,33 @@ const createUser = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = await User.create({
-            username,
-            email,
-            password: hashedPassword
-        });
-
-        res.status(201).json({
-            message: 'User created successfully',
-            user: {
-                id: newUser._id,
-                username: newUser.username,
-                email: newUser.email
-            }
-        });
-
-        sendEmail(
-            newUser.email,
-            'Welcome to Lumona!',
-            `Hi ${newUser.username}, thank you for joining Lumona! We're excited to have you on board.`
-        ).catch((err) => {
-            console.error('Email delivery failed:', err);
-        });
-
+        // Email verification 
+         userVerification(email);
+        
+            const newUser = await User.create({
+                username,
+                email,
+                password: hashedPassword
+            });
+            
+            res.status(201).json({
+                message: 'User created successfully',
+                user: {
+                    id: newUser._id,
+                    username: newUser.username,
+                    email: newUser.email
+                }
+            });
+            
+            sendEmail(
+                newUser.email,
+                'Welcome to Lumona!',
+                `Hi ${newUser.username}, thank you for joining Lumona! We're excited to have you on board.`
+            ).catch((err) => {
+                console.error('Email delivery failed:', err);
+            });
+            
+        
     } catch (error) {  
         console.error(error);
 

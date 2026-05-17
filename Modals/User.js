@@ -44,6 +44,16 @@ const User = new Schema({
   },
   resetTokenExpires:{
     type:Date
+  },
+  verified:{
+    type:Boolean,
+    default:false
+  },
+  verificationToken:{
+    type:String
+  },
+  verificationTokenExpires:{
+    type:Date
   }
   
   

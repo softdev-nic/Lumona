@@ -10,6 +10,7 @@ const getScore = require('./Modals/Controllers/Activities/getScore');
 const penaltyscore =require('./Modals/Controllers/Activities/PenaltyScore')
 const resetPasswordMail = require('./Modals/Controllers/Activities/resetPassword');
 const resetPasswordSetter = require('./Modals/Controllers/Activities/resetPasswordSetter');
+const verifyUser = require('./Modals/Controllers/verifyUser');
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -39,6 +40,8 @@ app.put('/api/penaltyscore', auth, penaltyscore)
 app.get('/api/score', auth,getScore)
 app.post('/api/resetpassword', resetPasswordMail)
 app.put('/api/auth/resetpassword/:token', resetPasswordSetter)
+app.put('/api/verify/:token',verifyUser)
+ 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
