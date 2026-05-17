@@ -1,14 +1,15 @@
  const User = require('../User');
 const bcrypt = require('bcryptjs');
 const sendEmail = require('../../mailer');
+const crypto = require('crypto');
 
 const createUser = async (req, res) => {
     const userVerification = async(email)=>{
        
         const user = await User.findOne({email});
         const verified = user.verified;
-        if(!verified){
-            const token = crypto.randomBytes(20).toString('hex');
+        if(user && !verified){
+            const token = crypto.randomBytes(20).toString('hex')  ;
             user.verificationToken = token;
             console.log(token)
             user.verificationTokenExpires = Date.now() + 5*60*1000;
