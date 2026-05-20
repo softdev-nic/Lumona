@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { schema } = require('./User')
+
 const Tasks = new mongoose.Schema({
     TaskName:{
       type:String,
@@ -21,12 +21,10 @@ const Tasks = new mongoose.Schema({
       type:String,
       required:true
     },
-    TaskCreatedBy:{
-
-      type: schema.Types.ObjectId,
-      ref:'User'
-    
-    },
+   TaskCreatedBy:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref:'User'
+},
 
     
 })
