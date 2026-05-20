@@ -12,6 +12,8 @@ const resetPasswordMail = require('./Modals/Controllers/Activities/resetPassword
 const resetPasswordSetter = require('./Modals/Controllers/Activities/resetPasswordSetter');
 const verifyUser = require('./Modals/Controllers/verifyUser');
 const TasksSetter = require('./Modals/Controllers/TaskSetter');
+const {getTasks} = require('./Modals/Controllers/TasksController');
+const {deleteTask} = require('./Modals/Controllers/TasksController')
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -43,7 +45,9 @@ app.post('/api/resetpassword', resetPasswordMail)
 app.put('/api/auth/resetpassword/:token', resetPasswordSetter)
 app.put('/api/verify/:token',verifyUser)
 app.post('/api/tasks',auth,TasksSetter)
- 
+app.get('/api/gettasks',auth,getTasks)
+app.delete('/api/tasks/:id',auth,deleteTask)
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
