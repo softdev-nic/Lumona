@@ -14,6 +14,7 @@ const verifyUser = require('./Modals/Controllers/verifyUser');
 const TasksSetter = require('./Modals/Controllers/TaskSetter');
 const {getTasks} = require('./Modals/Controllers/TasksController');
 const {deleteTask} = require('./Modals/Controllers/TasksController')
+const {CompletedTask} = require('./Modals/Controllers/TasksController')
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -47,7 +48,7 @@ app.put('/api/verify/:token',verifyUser)
 app.post('/api/tasks',auth,TasksSetter)
 app.get('/api/gettasks',auth,getTasks)
 app.delete('/api/tasks/:id',auth,deleteTask)
-
+app.put('/api/taskcomplete/:id',auth,CompletedTask)
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
