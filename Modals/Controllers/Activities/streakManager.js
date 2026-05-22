@@ -1,84 +1,57 @@
  const User = require('../../User');
-const isNewUser = (user)=>
-{
-  if(user.streak === 0 && user.longestStreak === 0 && user.lastCompletedsession === 0)
-    return true;
-  return false;
-}
-const streakManager = async (req, res) => {
+
+const updateStreak = async (userId) => {
+
     try {
-        const user = await User.findById(req.user.user.id);
 
-        if (!user) {
-            return res.status(404).json({
-                error: 'User not found'
-            });
+        const user = await User.findById(userId);
+
+        if(!user){
+            return;
         }
 
-        const now = new Date();
+        const currentDate = new Date();
 
-        const today = new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate()
-        );
+        const lastCompletedSession = user.lastCompletedSession;
 
-        const lastSession = user.lastCompletedsession
-            ? new Date(user.lastCompletedsession)
-            : null;
+        if(!lastCompletedSession){
 
-        if (lastSession) {
-            // Use UTC to avoid timezone shifts causing incorrect day differences
-            const lastDay = Date.UTC(
-                lastSession.getUTCFullYear(),
-                lastSession.getUTCMonth(),
-                lastSession.getUTCDate()
-            );
-
-            const diffDays = Math.floor(
-                (today - lastDay) / (1000 * 60 * 60 * 24)
-            );
-
-            if (diffDays === 0) {
-                return res.json({
-                    message: 'Streak already updated today',
-                    streak: user.streak,
-                    longestStreak: user.longestStreak,
-                    lastCompletedsession: user.lastCompletedsession
-                });
-            }
-
-            if (diffDays === 1) {
-                user.streak += 1;
-            } else {
-                user.streak = 1;
-            }
-
-        } else {
             user.streak = 1;
+
+            await user.save();
+
+            return;
         }
-       
 
-        user.lastCompletedsession = now;
+        const lastDate = new Date(lastCompletedSession);
 
-        if (user.streak > user.longestStreak) {
-            user.longestStreak = user.streak;
+        // normalize time
+        currentDate.setHours(0,0,0,0);
+        lastDate.setHours(0,0,0,0);
+
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        const difference =
+            (currentDate - lastDate) / oneDay;
+
+        if(difference === 1){
+
+            user.streak++;
+
+        }else if(difference > 1){
+
+            user.streak = 1;
+
         }
 
         await user.save();
 
-        res.json({
-            message: 'Streak updated successfully',
-            streak: user.streak,
-            longestStreak: user.longestStreak,
-            lastCompletedsession: user.lastCompletedsession
-        });
+    } catch(error){
 
-    } catch (error) {
-        res.status(500).json({
-            error: error.message
-        });
+        console.log(error);
+
     }
-};
 
-module.exports = streakManager;
+}
+
+module.exports = updateStreak;
