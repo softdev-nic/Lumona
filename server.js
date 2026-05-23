@@ -15,6 +15,7 @@ const TasksSetter = require('./Modals/Controllers/TaskSetter');
 const {getTasks} = require('./Modals/Controllers/TasksController');
 const {deleteTask} = require('./Modals/Controllers/TasksController')
 const {CompletedTask} = require('./Modals/Controllers/TasksController')
+const CreateTeam = require('./Modals/Controllers/TeamControllers/CreateTeam');
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -49,6 +50,7 @@ app.post('/api/tasks',auth,TasksSetter)
 app.get('/api/gettasks',auth,getTasks)
 app.delete('/api/tasks/:id',auth,deleteTask)
 app.put('/api/taskcomplete/:id',auth,CompletedTask)
+app.post('/api/createteam',auth,CreateTeam)
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

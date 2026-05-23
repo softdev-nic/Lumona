@@ -25,6 +25,15 @@ const Tasks = new mongoose.Schema({
   type: mongoose.Schema.Types.ObjectId,
   ref:'User'
 },
+AssignedTo:{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:'User'
+},
+TaskCreatedAt:{
+  type:Date,
+  default:Date.now
+}
+
 
     
 })
