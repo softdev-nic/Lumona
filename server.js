@@ -16,6 +16,8 @@ const {getTasks} = require('./Modals/Controllers/TasksController');
 const {deleteTask} = require('./Modals/Controllers/TasksController')
 const {CompletedTask} = require('./Modals/Controllers/TasksController')
 const CreateTeam = require('./Modals/Controllers/TeamControllers/CreateTeam');
+const addMember = require('./Modals/Controllers/TeamControllers/AddMember');
+const acceptMember = require('./Modals/Controllers/TeamControllers/AcceptMember');
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -51,6 +53,8 @@ app.get('/api/gettasks',auth,getTasks)
 app.delete('/api/tasks/:id',auth,deleteTask)
 app.put('/api/taskcomplete/:id',auth,CompletedTask)
 app.post('/api/createteam',auth,CreateTeam)
+app.post('/api/addmember',auth,addMember)
+app.get('/api/accept-invitation/:token',auth,acceptMember)
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

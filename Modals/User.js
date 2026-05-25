@@ -1,10 +1,20 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const User = new Schema({
+  teamId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Team'
+  },
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true},
   date: { type: Date, default: Date.now },
+  role:{
+    type:String,
+    enum:['manager','employee'],
+    default:'employee'
+  
+  },
   streak: { type: Number, default: 0 },
   score: { type: Number, default: 0 },
   currentStreak: { type: Number, default: 0 },

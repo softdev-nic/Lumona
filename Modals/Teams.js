@@ -9,7 +9,9 @@ const TeamSchema = new Schema({
     type:String
     
   },
- 
+ invitationToken:{
+    type:String
+ },
 CreatedBy:{
   type:mongoose.Schema.Types.ObjectId,
   ref:'User'
