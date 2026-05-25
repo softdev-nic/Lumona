@@ -14,7 +14,7 @@ const addMember = async (req, res) => {
             CreatedBy: req.user.user.id
         });
     
-        const InvitationLink = `https://www.lumona.site/teams/accept-invitation/${team.invitationToken}`;
+        const InvitationLink = `https://www.teams.lumona.site/accept-invitation/${team.invitationToken}`;
         await sendEmail(
             email,
             "Team Invitation",
