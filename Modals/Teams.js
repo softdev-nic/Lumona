@@ -16,6 +16,12 @@ CreatedBy:{
   type:mongoose.Schema.Types.ObjectId,
   ref:'User'
 },
+pendingInvitedMembers:[
+  {
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  }
+],  
 Members:[
   {
     type:mongoose.Schema.Types.ObjectId,

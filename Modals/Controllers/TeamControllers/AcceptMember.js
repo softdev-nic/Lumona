@@ -7,24 +7,27 @@ const acceptMember = async (req, res) => {
         const { token } = req.params;
         const team = await Team.findOne({ invitationToken: token });
         if (!team) {
-            return res.status(404).json({ error: 'Invalid invitation token' });
+            return res.status(404).json({ error: 'Team not found' });
         }
+
         const user = await User.findById(req.user.user.id);
+        const creator = await User.findById(team.CreatedBy);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+
         if (team.Members.includes(user._id)) {
             return res.status(400).json({ error: 'User is already a member of the team' });
         }
-        team.Members.push(user._id);
-        await team.save();
-        const creator = await User.findById(team.CreatedBy);
-        await sendEmail(
+        team.pendingInvitedMembers.push(user._id)
+
+        sendEmail(
             creator.email,
-            "New Team Member",
-            `${user.username} has accepted the invitation to join your team ${team.TeamName}.`
-        );
-        res.status(200).json({ message: 'You have successfully joined the team' });
+            "New Team Member Request",
+            `${user.name} has requested to join your team ${team.TeamName}. Please review the request in your team management dashboard.`
+        );  
+        await team.save();
+        res.status(200).json({ message: 'Membership request sent to team creator' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
