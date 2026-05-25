@@ -5,6 +5,8 @@ const sendEmail = require("../../../mailer")
 const acceptMember = async (req, res) => {
     try {
         const { token } = req.params;
+        console.log(token)
+        res.status(200).json({message:'Token received', token});
         const team = await Team.findOne({ invitationToken: token });
         if (!team) {
             return res.status(404).json({ error: 'Team not found' });
