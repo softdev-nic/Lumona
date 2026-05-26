@@ -21,12 +21,15 @@ const acceptMember = async (req, res) => {
         if (team.Members.includes(user._id)) {
             return res.status(400).json({ error: 'User is already a member of the team' });
         }
+        if(team.pendingInvitedMembers.includes(user._id)){
+            return res.status(400).json({ error: 'Membership request already sent' });
+        }
         team.pendingInvitedMembers.push(user._id)
 
         sendEmail(
             creator.email,
             "New Team Member Request",
-            `${user.name} has requested to join your team ${team.TeamName}. Please review the request in your team management dashboard.`
+            `${user.username} has requested to join your team ${team.TeamName}. Please review the request in your team management dashboard.`
         );  
         await team.save();
         res.status(200).json({ message: 'Membership request sent to team creator' });

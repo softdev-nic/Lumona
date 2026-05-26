@@ -48,6 +48,12 @@ const User = new Schema({
   },
   verificationTokenExpires:{
     type:Date
+  },
+  product:{
+    type:String,
+    enum:['personal','teams'],
+    default:'personal'
+  
   }
   
   
