@@ -23,6 +23,8 @@ const CreateTeam = async (req, res) => {
          <p>Hi ${user.username}, your team <strong>${TeamName}</strong> for <strong>${OrganizationName}</strong> has been created successfully.</p>`
     )
     res.status(201).json({ message: "Team created successfully", team: newTeam })
+    user.teamId = newTeam._id
+    await user.save()
     } catch (error) {
         res.status(500).json({
             error: error.message

@@ -40,6 +40,7 @@ const createEmployee = async (req, res) => {
         });
 
         res.status(201).json({ message: "User created successfully", token });
+        await sendEmail( newUser.email, "Welcome to the Team!", `<h1>Welcome to the Lumona!</h1><p>Hi ${newUser.username}, your ${newUser.product} account has been created successfully. You can now log in and start collaborating with your team.</p>`);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

@@ -19,6 +19,10 @@ const CreateTeam = require('./Modals/Controllers/TeamControllers/CreateTeam');
 const addMember = require('./Modals/Controllers/TeamControllers/AddMember');
 const acceptMember = require('./Modals/Controllers/TeamControllers/AcceptMember');
 const createEmployee = require('./Modals/Controllers/TeamControllers/CreateEmployee');
+const AcceptPendingMember = require('./Modals/Controllers/TeamControllers/AcceptIn');
+const getMembers = require('./Modals/Controllers/GetMembers');
+
+
 const cors = require('cors');
 require('./db');
 require('dotenv').config();
@@ -58,6 +62,10 @@ app.post('/api/createteam',auth,CreateTeam)
 app.post('/api/teams/employee-register',createEmployee)
 app.post('/api/addmember',auth,addMember)
 app.get('/api/accept-invitation/:token',auth,acceptMember)
+app.post('/api/teams/accept-member',auth,AcceptPendingMember)
+app.get('/api/teams/getmembers',auth, getMembers)   
+
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

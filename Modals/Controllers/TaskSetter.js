@@ -1,7 +1,7 @@
 const Tasks = require('../Tasks')
 const TasksSetter = async(req,res)=>{
     try {
-        const {TaskName, TaskDescription, TaskStartTime, TaskEndTime, TaskStatus} = req.body;
+        const {TaskName, TaskDescription, TaskStartTime, TaskEndTime, TaskStatus,AssignedTo} = req.body;
         
         const task = await Tasks.create({
             TaskName,
@@ -10,6 +10,7 @@ const TasksSetter = async(req,res)=>{
             TaskEndTime,
             TaskStatus,
             TaskCreatedBy: req.user.user.id,
+            AssignedTo: AssignedTo || null
             
         });
         
