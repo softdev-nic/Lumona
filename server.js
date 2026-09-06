@@ -22,6 +22,7 @@ const createEmployee = require('./Modals/Controllers/TeamControllers/CreateEmplo
 const AcceptPendingMember = require('./Modals/Controllers/TeamControllers/AcceptIn');
 const getMembers = require('./Modals/Controllers/GetMembers');
 const GetPendingInvites = require('./Modals/Controllers/TeamControllers/GetPendingInvites');
+const getDetails = require('./Modals/Controllers/TeamControllers/GetDashboard');
 
 
 const cors = require('cors');
@@ -66,7 +67,7 @@ app.get('/api/accept-invitation/:token',auth,acceptMember)
 app.post('/api/teams/accept-member',auth,AcceptPendingMember)
 app.get('/api/teams/getmembers',auth, getMembers)   
 app.get('/api/teams/pending-invites',auth, GetPendingInvites)
-
+app.get("/api/teams/get-details",auth,getDetails)
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
